@@ -40,6 +40,8 @@ namespace Uc6Fabio
         {
             // TODO: Add your initialization logic here
 
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 800;
             //Valor inicial dos placares
             placar[0] = 0; //Jg 1
             placar[1] = 1;
@@ -63,10 +65,10 @@ namespace Uc6Fabio
             player1 = new Player(Content, Vector2.One, "Nicolas");
             placarFont = Content.Load<SpriteFont>(@"Font");
 
-            player2 = new Player(Content, new Vector2(1570,200), "Natanael");
+            player2 = new Player(Content, new Vector2(990, 200), "Natanael");
 
             player3 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, 0), "Ana");
-            player4 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, 800),"Joao");
+            player4 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, 700),"Joao");
                   
             // TODO: use this.Content to load your game content here
 
@@ -171,7 +173,7 @@ namespace Uc6Fabio
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here           
 
@@ -188,11 +190,11 @@ namespace Uc6Fabio
             Vector2 placar3 = placarFont.MeasureString(placar[2].ToString("000"));
             Vector2 placar4 = placarFont.MeasureString(placar[3].ToString("000"));
 
-            spriteBatch.DrawString(placarFont, placar[0].ToString("000"),new Vector2(200,200),Color.White);
-            spriteBatch.DrawString(placarFont, placar[1].ToString("000"), new Vector2(250, 200), Color.White);
+            spriteBatch.DrawString(placarFont, placar[0].ToString("P1: " + "000"),new Vector2(0, 730),Color.White);
+            spriteBatch.DrawString(placarFont, placar[1].ToString("P2: " + "000"), new Vector2(300, 730), Color.White);
+            spriteBatch.DrawString(placarFont, placar[2].ToString("P3: " + "000"), new Vector2(600, 730), Color.White);
+            spriteBatch.DrawString(placarFont, placar[3].ToString("P4: " + "000"), new Vector2(870, 730), Color.White);
             spriteBatch.End();
-
-
 
             base.Draw(gameTime);
         }

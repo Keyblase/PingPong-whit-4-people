@@ -21,6 +21,7 @@ namespace Uc6Fabio.Components
         public Vector2 PositionEnd { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle frame;
+        
 
         public Player(ContentManager content, Vector2 posIni, string namePlayer)
         {
@@ -45,11 +46,11 @@ namespace Uc6Fabio.Components
         public void MovimentPlayer(GameTime gameTime, Player playerRecebido)
         {
             float TimeExecution = (float)gameTime.ElapsedGameTime.TotalSeconds;//delta time
-
-            bool upArrow = false, downArrow = false;
+            MouseState mouseState = Mouse.GetState();
+            bool upArrow = false, downArrow = false, rightArrow = false,leftArrow = false;
         
-        if(playerRecebido.NamePlayer1 == "Nicolas")
-            {
+             if(playerRecebido.NamePlayer1 == "Nicolas")
+                 {
 
                  if (Keyboard.GetState().IsKeyDown(Keys.Up))
                  {
@@ -65,12 +66,10 @@ namespace Uc6Fabio.Components
                  {
                     playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
                  }
-
             }
 
             if (playerRecebido.NamePlayer1 == "Natanael")
             {
-
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     upArrow = true;
@@ -85,16 +84,35 @@ namespace Uc6Fabio.Components
                 {
                     playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
                 }
-
             }
+
+            if (playerRecebido.NamePlayer1 == "Ana")
+            {
+                if (Mouse.GetState().HorizontalScrollWheelValue > 0)
+                {
+                    rightArrow = true;
+                    playerRecebido.PositionInitial.X += speed * +35 * TimeExecution;
+                }
+                if (Mouse.GetState().HorizontalScrollWheelValue < 0)
+                {
+                    leftArrow = true;
+                    playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
+                }
+                if (leftArrow ^ rightArrow)
+                {
+                    playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
+                }
+            }
+
         }
+
 
         public void DrawImage(SpriteBatch sprite)
         {
             if (NamePlayer1 == "Nicolas" || NamePlayer1 == "Natanael")
             {
                 frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
-                sprite.Draw(Texture, frame, Color.Black);
+                sprite.Draw(Texture, frame, Color.Blue);
             }
             else
             {
