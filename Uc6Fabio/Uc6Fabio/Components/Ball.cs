@@ -11,14 +11,15 @@ namespace Uc6Fabio.Components
 {
     public class Ball : BaseObjects
     {
-        int speed, damage;            
+        int speed1,speed2, damage;            
         public Rectangle frame;
         bool isVisible;
+
+        public int Speed { get => speed1; set => speed1 = speed2 = value; }
 
         public Vector2 PositionInitial { get ; set; }
         public Vector2 PositionEnd { get; set; }
         public Texture2D Texture { get; set  ; }
-        public int Speed { get => speed; set => speed = value; }
         public int Damage { get => damage; set => damage = value; }
         public bool IsVisible { get => isVisible; set => isVisible = value; }
 
@@ -30,8 +31,8 @@ namespace Uc6Fabio.Components
         {
             Texture = content.Load<Texture2D>("Images\\esfera3d");           
             PositionInitial = posIni;
-            speed = 10;
-            PositionEnd = new Vector2(35,2);
+            speed1 = speed2 = 10;
+            PositionEnd = new Vector2(20,20);
         }
 
         #region
@@ -39,16 +40,16 @@ namespace Uc6Fabio.Components
          {
              float TimeExecution = (float)gameTime.ElapsedGameTime.TotalSeconds;//delta time
                                                                                        
-             PositionInitial += speed * PositionEnd * TimeExecution;
+             PositionInitial += new Vector2(speed1,speed2) * PositionEnd * TimeExecution;
+            
+        }
 
-
-         }
-        
-         public void Aceleration(GameTime gameTime)
-         {
-             float TimeExecution = (float)gameTime.ElapsedGameTime.TotalSeconds;//delta time
-             PositionInitial *= speed * PositionEnd * TimeExecution;
-         }
+        //public void Aceleration(GameTime gameTime)
+        //{
+        //
+        //    float TimeExecution = (float)gameTime.ElapsedGameTime.TotalSeconds;//delta time
+        //    PositionInitial *= speed * PositionEnd * TimeExecution;
+        //}
 
         public void DrawImage(SpriteBatch sprite)
         {
@@ -69,9 +70,9 @@ namespace Uc6Fabio.Components
         public void ChangeOnTouchBorder(int xOuy)
         {
             if(xOuy == 0)
-            speed *= -1;
+            speed1 *= -1;
             if (xOuy == 1)
-                speed *= 1; //arumar
+                speed2 *= -1; //arumar
         }
         
         #endregion

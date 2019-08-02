@@ -39,9 +39,10 @@ namespace Uc6Fabio
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            
+            graphics.IsFullScreen = false;
+            graphics.ApplyChanges();
 
-            graphics.PreferredBackBufferHeight = 800;
-            graphics.PreferredBackBufferWidth = 800;
             //Valor inicial dos placares
             placar[0] = 0; //Jg 1
             placar[1] = 1;
@@ -60,7 +61,7 @@ namespace Uc6Fabio
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ball = new Ball(Content,new Vector2(730,1));
+            ball = new Ball(Content,new Vector2(530,1));
 
             player1 = new Player(Content, Vector2.One, "Nicolas");
             placarFont = Content.Load<SpriteFont>(@"Font");
@@ -104,22 +105,16 @@ namespace Uc6Fabio
 
             player1.MovimentPlayer(gameTime,player1);
             player2.MovimentPlayer(gameTime,player2);
-
-            int xOuy;
-
-            if (ball.PositionInitial.X + ball.frame.Width 
-                >= graphics.PreferredBackBufferWidth || ball.PositionInitial.X <= 0)
+ 
+            if (ball.PositionInitial.X + ball.frame.Width >= graphics.PreferredBackBufferWidth || ball.PositionInitial.X < 0)
             {
-                xOuy = 0;
                 touchBorder = false;
-                ball.ChangeOnTouchBorder(xOuy);
+                ball.ChangeOnTouchBorder(0);
             }
-            if (ball.PositionInitial.Y + ball.frame.Height
-                >= graphics.PreferredBackBufferHeight || ball.PositionInitial.Y <= 0)
+            if (ball.PositionInitial.Y + ball.frame.Height >= graphics.PreferredBackBufferHeight || ball.PositionInitial.Y < 0)
             {
-                xOuy = 1;
                 touchBorder = false;
-                ball.ChangeOnTouchBorder(xOuy);
+                ball.ChangeOnTouchBorder(1);
             }
 
             //if (ball.Colide(player2) == true)
@@ -173,7 +168,7 @@ namespace Uc6Fabio
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Content.Load<Texture2D>("Images\\PingPong"));
 
             // TODO: Add your drawing code here           
 
@@ -189,7 +184,8 @@ namespace Uc6Fabio
             Vector2 placar2 = placarFont.MeasureString(placar[1].ToString("000"));
             Vector2 placar3 = placarFont.MeasureString(placar[2].ToString("000"));
             Vector2 placar4 = placarFont.MeasureString(placar[3].ToString("000"));
-
+            spriteBatch.DrawString(placarFont,(ball.PositionInitial.ToString() + " " + graphics.PreferredBackBufferWidth), new Vector2(400, 400), Color.White);
+            spriteBatch.DrawString(placarFont, (ball.PositionInitial.ToString() + " " + graphics.PreferredBackBufferHeight), new Vector2(400, 600), Color.White);
             spriteBatch.DrawString(placarFont, placar[0].ToString("P1: " + "000"),new Vector2(0, 730),Color.White);
             spriteBatch.DrawString(placarFont, placar[1].ToString("P2: " + "000"), new Vector2(300, 730), Color.White);
             spriteBatch.DrawString(placarFont, placar[2].ToString("P3: " + "000"), new Vector2(600, 730), Color.White);
