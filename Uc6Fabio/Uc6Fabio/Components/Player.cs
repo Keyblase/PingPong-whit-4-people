@@ -85,15 +85,32 @@ namespace Uc6Fabio.Components
                     playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
                 }
             }
-
             if (playerRecebido.NamePlayer1 == "Ana")
             {
-                if (Mouse.GetState().HorizontalScrollWheelValue > 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     rightArrow = true;
-                    playerRecebido.PositionInitial.X += speed * +35 * TimeExecution;
+                    playerRecebido.PositionInitial.X += speed * 35 * TimeExecution;
                 }
-                if (Mouse.GetState().HorizontalScrollWheelValue < 0)
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    leftArrow = true;
+                    playerRecebido.PositionInitial.X += speed * -35 * TimeExecution;
+                }
+                if (leftArrow ^ rightArrow)
+                {
+                    playerRecebido.PositionInitial.X += speed * 0 * TimeExecution;
+                }
+            }
+
+            if (playerRecebido.NamePlayer1 == "Joao")
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                {
+                    rightArrow = true;
+                    playerRecebido.PositionInitial.X += speed * 35 * TimeExecution;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
                     leftArrow = true;
                     playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
@@ -103,21 +120,48 @@ namespace Uc6Fabio.Components
                     playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
                 }
             }
+            // if (playerRecebido.NamePlayer1 == "Ana")
+            // {
+            //     if (Mouse.GetState().HorizontalScrollWheelValue > 0)
+            //     {
+            //         rightArrow = true;
+            //         playerRecebido.PositionInitial.X += speed * +35 * TimeExecution;
+            //     }
+            //     if (Mouse.GetState().HorizontalScrollWheelValue < 0)
+            //     {
+            //         leftArrow = true;
+            //         playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
+            //     }
+            //     if (leftArrow ^ rightArrow)
+            //     {
+            //         playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
+            //     }
+            // }
 
         }
 
 
         public void DrawImage(SpriteBatch sprite)
         {
-            if (NamePlayer1 == "Nicolas" || NamePlayer1 == "Natanael")
+            if (NamePlayer1 == "Nicolas" )
             {
                 frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
-                sprite.Draw(Texture, frame, Color.Blue);
+                sprite.Draw(Texture, frame, Color.AliceBlue);
+            }
+            else if( NamePlayer1 == "Natanael")
+            {
+                frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
+                sprite.Draw(Texture, frame, Color.Orange);
+            }
+            else if(NamePlayer1 == "Ana")
+            {
+                frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
+                sprite.Draw(Texture, frame, Color.Red);
             }
             else
             {
                 frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
-                sprite.Draw(Texture, frame, Color.Yellow);
+                sprite.Draw(Texture, frame, Color.Violet);
             }
         }
 

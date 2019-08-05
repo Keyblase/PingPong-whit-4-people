@@ -12,12 +12,13 @@ namespace Uc6Fabio
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Background background;
         Ball ball;
         Player player1;
         Player player2;
         Player player3;
         Player player4;
-
+        int limitRightWidth = 928,limitLeftWidth = 320 ,limitUpHeight = 40,limitDownHeight = 648;
         SpriteFont placarFont;
         int[] placar = new int[4];//placar[0] jg1, e assim por diante
         bool touchBorder = false;
@@ -61,15 +62,16 @@ namespace Uc6Fabio
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            ball = new Ball(Content,new Vector2(530,1));
+            background = new Background(Content, new Vector2(0,0));//
+            ball = new Ball(Content,new Vector2(530,400));
 
-            player1 = new Player(Content, Vector2.One, "Nicolas");
+            player1 = new Player(Content, new Vector2(limitLeftWidth, 200), "Nicolas");
             placarFont = Content.Load<SpriteFont>(@"Font");
 
-            player2 = new Player(Content, new Vector2(990, 200), "Natanael");
+            player2 = new Player(Content, new Vector2(limitRightWidth, 200), "Natanael");
 
-            player3 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, 0), "Ana");
-            player4 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, 700),"Joao");
+            player3 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, limitUpHeight), "Ana");
+            player4 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, limitDownHeight),"Joao");
                   
             // TODO: use this.Content to load your game content here
 
@@ -106,12 +108,12 @@ namespace Uc6Fabio
             player1.MovimentPlayer(gameTime,player1);
             player2.MovimentPlayer(gameTime,player2);
  
-            if (ball.PositionInitial.X + ball.frame.Width >= graphics.PreferredBackBufferWidth || ball.PositionInitial.X < 0)
+            if (ball.PositionInitial.X + ball.frame.Width >= limitRightWidth || ball.PositionInitial.X < limitLeftWidth)
             {
                 touchBorder = false;
                 ball.ChangeOnTouchBorder(0);
             }
-            if (ball.PositionInitial.Y + ball.frame.Height >= graphics.PreferredBackBufferHeight || ball.PositionInitial.Y < 0)
+            if (ball.PositionInitial.Y + ball.frame.Height >= limitDownHeight || ball.PositionInitial.Y < limitUpHeight)
             {
                 touchBorder = false;
                 ball.ChangeOnTouchBorder(1);
@@ -130,21 +132,29 @@ namespace Uc6Fabio
 
             if (player1.frame.Intersects(ball.frame))
             {
-                ball.Speed += 20;
+                ball.Speed += 10;
+            }
+            if (player3.frame.Intersects(ball.frame))
+            {
+                ball.Speed -= 10;
+            }
+            if (player4.frame.Intersects(ball.frame))
+            {
+                ball.Speed += 10;
             }
             
             //Verifica se houve uma pontuação para o jogador
 
-            if(player1.PositionInitial.X + player1.Texture.Width > graphics.PreferredBackBufferWidth)
-            {
-                placar[0] += 1;
-            }
-
-            if (player2.PositionInitial.X + player2.Texture.Width < 0)
-            {
-                placar[1] += 1;
-            }
-
+            //if(player1.PositionInitial.X + player1.Texture.Width > graphics.PreferredBackBufferWidth)
+            //{
+            //    placar[0] += 1;
+            //}
+            //
+            //if (player2.PositionInitial.X + player2.Texture.Width < 0)
+            //{
+            //    placar[1] += 1;
+            //}
+            //
             //if (player3.PositionInitial.X + player3.Texture.Height > graphics.PreferredBackBufferHeight)
             //{
             //    placar[0] += 1;
@@ -155,10 +165,6 @@ namespace Uc6Fabio
             //    placar[1] += 1;
             //}
 
-
-
-
-
             base.Update(gameTime);
         }
 
@@ -168,28 +174,29 @@ namespace Uc6Fabio
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Content.Load<Texture2D>("Images\\PingPong"));
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: Add your drawing code here           
 
             spriteBatch.Begin();
+            background.DrawImage(spriteBatch);
             ball.DrawImage(spriteBatch);          
             player1.DrawImage(spriteBatch);           
             player2.DrawImage(spriteBatch);
             player3.DrawImage(spriteBatch);
             player4.DrawImage(spriteBatch);
 
-            //Placar 1
+            //Placares
             Vector2 placar1 = placarFont.MeasureString(placar[0].ToString("000"));
             Vector2 placar2 = placarFont.MeasureString(placar[1].ToString("000"));
             Vector2 placar3 = placarFont.MeasureString(placar[2].ToString("000"));
             Vector2 placar4 = placarFont.MeasureString(placar[3].ToString("000"));
             spriteBatch.DrawString(placarFont,(ball.PositionInitial.ToString() + " " + graphics.PreferredBackBufferWidth), new Vector2(400, 400), Color.White);
             spriteBatch.DrawString(placarFont, (ball.PositionInitial.ToString() + " " + graphics.PreferredBackBufferHeight), new Vector2(400, 600), Color.White);
-            spriteBatch.DrawString(placarFont, placar[0].ToString("P1: " + "000"),new Vector2(0, 730),Color.White);
-            spriteBatch.DrawString(placarFont, placar[1].ToString("P2: " + "000"), new Vector2(300, 730), Color.White);
-            spriteBatch.DrawString(placarFont, placar[2].ToString("P3: " + "000"), new Vector2(600, 730), Color.White);
-            spriteBatch.DrawString(placarFont, placar[3].ToString("P4: " + "000"), new Vector2(870, 730), Color.White);
+            spriteBatch.DrawString(placarFont, placar[0].ToString("000"),new Vector2(190, 230),Color.White);
+            spriteBatch.DrawString(placarFont, placar[1].ToString("000"), new Vector2(190, 315), Color.White);
+            spriteBatch.DrawString(placarFont, placar[2].ToString("000"), new Vector2(190, 400), Color.White);
+            spriteBatch.DrawString(placarFont, placar[3].ToString("000"), new Vector2(190, 485), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
