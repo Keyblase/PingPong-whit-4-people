@@ -31,8 +31,8 @@ namespace Uc6Fabio.Components
         {
             Texture = content.Load<Texture2D>("Images\\esfera3d");           
             PositionInitial = posIni;
-            speed1 = speed2 = 10;
-            PositionEnd = new Vector2(20,20);
+            speed1 = speed2 = 3;
+            PositionEnd = new Vector2(1,-20);
         }
 
         #region
@@ -55,7 +55,9 @@ namespace Uc6Fabio.Components
         {
             frame = new Rectangle((int)PositionInitial.X,(int)PositionInitial.Y, 50, 50);
             AxisRotation = new Rectangle(0, 0, Texture.Width, Texture.Height);
-            sprite.Draw((Texture), frame, Color.BlueViolet);
+            sprite.Draw((Texture), frame, Color.AntiqueWhite);
+
+            
             //sprite.Draw(
             //    (Texture),
             //    PositionInitial,
@@ -65,6 +67,10 @@ namespace Uc6Fabio.Components
             //    AxisRotation,
             //    );
 
+        }
+        public void ChangeColor(SpriteBatch sprite, Player playerTocado)
+        {
+            sprite.Draw((Texture), frame, Color.AliceBlue);           
         }
 
         public void ChangeOnTouchBorder(int xOuy)

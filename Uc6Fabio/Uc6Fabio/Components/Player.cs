@@ -55,7 +55,7 @@ namespace Uc6Fabio.Components
                  if (Keyboard.GetState().IsKeyDown(Keys.Up))
                  {
                      upArrow = true;
-                    playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
+                    playerRecebido.PositionInitial.Y -= speed * 35 * TimeExecution;
                  }
                  if (Keyboard.GetState().IsKeyDown(Keys.Down))
                  {
@@ -73,7 +73,7 @@ namespace Uc6Fabio.Components
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     upArrow = true;
-                    playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
+                    playerRecebido.PositionInitial.Y -= speed * 35 * TimeExecution;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
@@ -95,7 +95,7 @@ namespace Uc6Fabio.Components
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     leftArrow = true;
-                    playerRecebido.PositionInitial.X += speed * -35 * TimeExecution;
+                    playerRecebido.PositionInitial.X -= speed * 35 * TimeExecution;
                 }
                 if (leftArrow ^ rightArrow)
                 {
@@ -113,11 +113,11 @@ namespace Uc6Fabio.Components
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
                     leftArrow = true;
-                    playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
+                    playerRecebido.PositionInitial.X -= speed * 35 * TimeExecution;
                 }
                 if (leftArrow ^ rightArrow)
                 {
-                    playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
+                    playerRecebido.PositionInitial.X += speed * 0 * TimeExecution;
                 }
             }
             // if (playerRecebido.NamePlayer1 == "Ana")

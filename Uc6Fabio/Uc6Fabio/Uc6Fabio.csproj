@@ -106,6 +106,7 @@
     <Compile Include="Components\Background.cs" />
     <Compile Include="Components\Ball.cs" />
     <Compile Include="Components\BaseObjects.cs" />
+    <Compile Include="Components\Chronometer.cs" />
     <Compile Include="Components\Enemy.cs" />
     <Compile Include="Components\Player.cs" />
     <Compile Include="GamePage.xaml.cs">
