@@ -37,10 +37,9 @@ namespace Uc6Fabio.Components
             }
 
             PositionInitial = posIni;
-            speed = 4;
+            speed = 5;
             PositionEnd = new Vector2(1, 1);
-            
-
+           
         }
 
         public void MovimentPlayer(GameTime gameTime, Player playerRecebido)
@@ -52,20 +51,20 @@ namespace Uc6Fabio.Components
              if(playerRecebido.NamePlayer1 == "Nicolas")
                  {
 
-                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                 {
-                     upArrow = true;
-                    playerRecebido.PositionInitial.Y -= speed * 35 * TimeExecution;
-                 }
-                 if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                 {
-                     downArrow = true;
-                    playerRecebido.PositionInitial.Y += speed * 35 * TimeExecution;
-                 }
-                 if(upArrow ^ downArrow)
-                 {
-                    playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
-                 }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                    {
+                        upArrow = true;
+                       playerRecebido.PositionInitial.Y -= speed * 35 * TimeExecution;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                    {
+                        downArrow = true;
+                       playerRecebido.PositionInitial.Y += speed * 35 * TimeExecution;
+                    }
+                    if(upArrow ^ downArrow)
+                    {
+                       playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
+                    }
             }
 
             if (playerRecebido.NamePlayer1 == "Natanael")
@@ -163,15 +162,6 @@ namespace Uc6Fabio.Components
                 frame = new Rectangle((int)PositionInitial.X, (int)PositionInitial.Y, Texture.Width, Texture.Height);
                 sprite.Draw(Texture, frame, Color.Violet);
             }
-        }
-
-
-        public Player(string namePlayer, string life, string damage, int posY, int posX)
-        {
-            NamePlayer = namePlayer;
-            this.life = life;
-            this.damage = damage;
-        }
-       
+        }      
     }
 }

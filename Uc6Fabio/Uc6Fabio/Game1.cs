@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Uc6Fabio.Components;
 
 namespace Uc6Fabio
@@ -15,103 +17,81 @@ namespace Uc6Fabio
 
         Background background;
         Ball ball;
+        Player player0;
         Player player1;
         Player player2;
         Player player3;
         Player player4;
-        Chronometer chronometer;
+        Song _musica;
+        SoundEffect _somColisao;
+        SpriteFont placarFont;
+
+        //Chronometer chronometer;
         int limitRightWidth = 928,limitLeftWidth = 320 ,limitUpHeight = 40,limitDownHeight = 648,limitBallRight = 955 ,limitBallDown = 720;
         int[] placar = new int[4];//placar[0] jg1, e assim por diante
-        SpriteFont placarFont;        
-        bool touchBorder = false;
+            
+        int chronometrer = 0;
+        string MostrarCronometro;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            // graphics.IsFullScreen = true;
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            var sprite = Content.Load<Texture2D>("Parado");
-            Color[] newColor = new Color[sprite.Width * sprite.Height];
-            sprite.GetData(newColor);
-
-            Color newColor1 = Color.AliceBlue;
-            sprite.SetData<Color>(newColor);
-
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
 
             //Valor inicial dos placares
             placar[0] = 0; //Jg 1
-            placar[1] = 1;
-            placar[2] = 2;
-            placar[3] = 3;
+            placar[1] = 0;
+            placar[2] = 0;
+            placar[3] = 0;
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            chronometer = new Chronometer(Services);
 
-            background = new Background(Content, new Vector2(0,0));//
+            _musica = Content.Load<Song>("Sons/Fringe");
+            _somColisao = Content.Load<SoundEffect>("Sons/colisao");
+
+            //Repete a musica
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(_musica);
+
+            placarFont = Content.Load<SpriteFont>(@"Font");
+            background = new Background(Content, new Vector2(0,0));
             ball = new Ball(Content,new Vector2(530,400));
 
+            player0 = new Player(Content, new Vector2(limitLeftWidth, 200), "Default");
             player1 = new Player(Content, new Vector2(limitLeftWidth, 200), "Nicolas");
-            placarFont = Content.Load<SpriteFont>(@"Font");
-
             player2 = new Player(Content, new Vector2(limitRightWidth, 200), "Natanael");
-
             player3 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, limitUpHeight), "Ana");
             player4 = new Player(Content, new Vector2(graphics.PreferredBackBufferWidth / 2, limitDownHeight),"Joao");
-                  
-            // TODO: use this.Content to load your game content here
-
-
+  
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+           
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
             //Verifica inputs gamepad e keyboard
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-
-            chronometer.Update(gameTime);
+            chronometrer += gameTime.ElapsedGameTime.Seconds;
+            MostrarCronometro = chronometrer.ToString();
+            
 
             ball.MovimentBall(gameTime);
             //ball.Aceleration(gameTime);
@@ -178,97 +158,144 @@ namespace Uc6Fabio
             
             if (ball.PositionInitial.X + ball.frame.Width >= limitBallRight || ball.PositionInitial.X < limitLeftWidth)//arrumar limitBall
             {
-                touchBorder = false;
-                ball.PositionInitial = new Vector2(400, 400);
-                //ball.ChangeOnTouchBorder(0);
+                if(ball.ballColour == Color.AliceBlue)
+                {
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Green)
+                {
+                    placar[0] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Orange)
+                {
+                    placar[1] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Red)
+                {
+                    placar[2] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Violet)
+                {
+                    placar[3] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+
             }
             if (ball.PositionInitial.Y + ball.frame.Height >= limitBallDown || ball.PositionInitial.Y < limitUpHeight)//arrumar limitBall
             {
-                touchBorder = false;
-                //ball.ChangeOnTouchBorder(1);
-                ball.PositionInitial = new Vector2(400, 400);
+                if (ball.ballColour == Color.AliceBlue)
+                {
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Green)
+                {
+                    placar[0] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Orange)
+                {
+                    placar[1] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Red)
+                {
+                    placar[2] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                if (ball.ballColour == Color.Violet)
+                {
+                    placar[3] += 1;
+                    ball.PositionInitial = new Vector2(640, 320);
+                    ball.ballColour = Color.AliceBlue;
+                }
+                
             }
 
-            //if (ball.Colide(player2) == true)
-            //{
-            //    ball.Speed = 10;
-            //    ball.PositionInitial = new Vector2(player1.PositionInitial.X, player1.PositionInitial.Y);
-            //}
 
             if (player1.frame.Intersects(ball.frame))
             {
+                _somColisao.Play();
                 ball.ChangeOnTouchBorder(1);
                 ball.Speed = 3;
                 ball.PositionEnd = new Vector2(20, 10);
+                
                 //ball.Speed += 3;
             }
             if (player2.frame.Intersects(ball.frame))
             {
+                _somColisao.Play();
                 ball.ChangeOnTouchBorder(1);
                 ball.Speed = -3;
                 ball.PositionEnd = new Vector2(10, 20);
+                
                 //ball.Speed -= 3;
             }
             if (player3.frame.Intersects(ball.frame))
             {
+                _somColisao.Play();
                 ball.ChangeOnTouchBorder(1);
                 ball.Speed = -3;
                 ball.PositionEnd = new Vector2(20, -40);
-
-                //ball.ChangeColor(spriteBatch, player3);
+                ball.ChangeColor(spriteBatch, player3);
+                
                 //ball.Speed -= 3;
             }
             if (player4.frame.Intersects(ball.frame))
             {
-                ball.ChangeOnTouchBorder(1);
+                _somColisao.Play();
+                ball.ChangeOnTouchBorder(0);
                 ball.Speed = -3;
-
+                
                 //ball.Speed -= 3;
-            }
-
-            //Verifica se houve uma pontuação para o jogador
-
-            //if(player1.PositionInitial.X + player1.Texture.Width > graphics.PreferredBackBufferWidth)
-            //{
-            //    placar[0] += 1;
-            //}
-            //
-            //if (player2.PositionInitial.X + player2.Texture.Width < 0)
-            //{
-            //    placar[1] += 1;
-            //}
-            //
-            //if (player3.PositionInitial.X + player3.Texture.Height > graphics.PreferredBackBufferHeight)
-            //{
-            //    placar[0] += 1;
-            //}
-            //
-            //if (player4.PositionInitial.X + player4.Texture.Height < 0)
-            //{
-            //    placar[1] += 1;
-            //}
+            }           
 
             base.Update(gameTime);
         }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
-
-            // TODO: Add your drawing code here           
+            GraphicsDevice.Clear(Color.White);       
 
             spriteBatch.Begin();
-            chronometer.Draw(spriteBatch, new Vector2(400, 400));
             background.DrawImage(spriteBatch);
-            ball.DrawImage(spriteBatch);          
+
+            if (player1.frame.Intersects(ball.frame))
+            {
+                ball.DrawImage(spriteBatch, Color.Green);
+            }
+            if (player2.frame.Intersects(ball.frame))
+            {
+                ball.DrawImage(spriteBatch, Color.Orange);
+            }
+            if (player3.frame.Intersects(ball.frame))
+            {
+                ball.DrawImage(spriteBatch, Color.Red);
+            }
+            if (player4.frame.Intersects(ball.frame))
+            {
+                ball.DrawImage(spriteBatch, Color.Violet);
+            }
+            else
+            {
+                ball.DrawImage(spriteBatch, Color.AliceBlue);
+            }        
             player1.DrawImage(spriteBatch);           
             player2.DrawImage(spriteBatch);
             player3.DrawImage(spriteBatch);
             player4.DrawImage(spriteBatch);
+
             if (player3.frame.Intersects(ball.frame))
             {
                 ball.ChangeColor(spriteBatch, player3);
@@ -279,8 +306,13 @@ namespace Uc6Fabio
             Vector2 placar2 = placarFont.MeasureString(placar[1].ToString("000"));
             Vector2 placar3 = placarFont.MeasureString(placar[2].ToString("000"));
             Vector2 placar4 = placarFont.MeasureString(placar[3].ToString("000"));
-            spriteBatch.DrawString(placarFont,(graphics.PreferredBackBufferWidth + "" + ball.PositionInitial.ToString()), new Vector2(400, 400), Color.White);
-            spriteBatch.DrawString(placarFont, (graphics.PreferredBackBufferHeight + " " + ball.PositionInitial.ToString()), new Vector2(400, 600), Color.White);
+            Vector2 chonometrerPlacar = placarFont.MeasureString(MostrarCronometro.ToString());
+
+            //spriteBatch.DrawString(placarFont,(graphics.PreferredBackBufferWidth + "" + ball.PositionInitial.ToString()), new Vector2(400, 400), Color.White);
+            //spriteBatch.DrawString(placarFont, (graphics.PreferredBackBufferHeight + " " + ball.PositionInitial.ToString()), new Vector2(400, 600), Color.White);
+
+            base.Draw(gameTime);
+            spriteBatch.DrawString(placarFont, MostrarCronometro.ToString(), new Vector2(1050, 250), Color.White);
             spriteBatch.DrawString(placarFont, placar[0].ToString("000"),new Vector2(190, 230),Color.White);
             spriteBatch.DrawString(placarFont, placar[1].ToString("000"), new Vector2(190, 315), Color.White);
             spriteBatch.DrawString(placarFont, placar[2].ToString("000"), new Vector2(190, 400), Color.White);

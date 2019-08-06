@@ -16,7 +16,7 @@ namespace Uc6Fabio.Components
         bool isVisible;
 
         public int Speed { get => speed1; set => speed1 = speed2 = value; }
-
+        public Color ballColour { get; set; }
         public Vector2 PositionInitial { get ; set; }
         public Vector2 PositionEnd { get; set; }
         public Texture2D Texture { get; set  ; }
@@ -31,8 +31,9 @@ namespace Uc6Fabio.Components
         {
             Texture = content.Load<Texture2D>("Images\\esfera3d");           
             PositionInitial = posIni;
-            speed1 = speed2 = 3;
-            PositionEnd = new Vector2(1,-20);
+            speed1 = speed2 = 6;
+            PositionEnd = new Vector2(1,20);
+            ballColour = Color.AliceBlue;
         }
 
         #region
@@ -44,6 +45,7 @@ namespace Uc6Fabio.Components
             
         }
 
+
         //public void Aceleration(GameTime gameTime)
         //{
         //
@@ -51,26 +53,38 @@ namespace Uc6Fabio.Components
         //    PositionInitial *= speed * PositionEnd * TimeExecution;
         //}
 
-        public void DrawImage(SpriteBatch sprite)
+        public void DrawImage(SpriteBatch sprite, Color color)
         {
             frame = new Rectangle((int)PositionInitial.X,(int)PositionInitial.Y, 50, 50);
             AxisRotation = new Rectangle(0, 0, Texture.Width, Texture.Height);
-            sprite.Draw((Texture), frame, Color.AntiqueWhite);
 
-            
-            //sprite.Draw(
-            //    (Texture),
-            //    PositionInitial,
-            //    frame, 
-            //    Color.BlueViolet,
-            //    Degree,
-            //    AxisRotation,
-            //    );
-
+            if(color.Equals(Color.Red))
+            {
+                ballColour = Color.Red;           
+            }
+            if (color.Equals(Color.Violet))
+            {
+                ballColour = Color.Violet;
+            }
+            if (color.Equals(Color.Orange))
+            {
+                ballColour = Color.Orange;
+            }
+            if (color.Equals(Color.Green))
+            {
+                ballColour = Color.Green;
+            }
+            else
+            {
+                sprite.Draw((Texture), frame, ballColour);
+            }
         }
         public void ChangeColor(SpriteBatch sprite, Player playerTocado)
         {
-            sprite.Draw((Texture), frame, Color.AliceBlue);           
+            //if(playerTocado.NamePlayer1 == "Ana")
+            //{
+            //    DrawImage(sprite,playerTocado);
+            //}           
         }
 
         public void ChangeOnTouchBorder(int xOuy)
@@ -78,7 +92,7 @@ namespace Uc6Fabio.Components
             if(xOuy == 0)
             speed1 *= -1;
             if (xOuy == 1)
-                speed2 *= -1; //arumar
+                speed2 *= -1; 
         }
         
         #endregion
