@@ -37,6 +37,7 @@ namespace Uc6Fabio
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "PingPong Com a Galera";
         }
 
         protected override void Initialize()
