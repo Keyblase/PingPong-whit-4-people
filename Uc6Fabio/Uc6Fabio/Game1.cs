@@ -251,6 +251,7 @@ namespace Uc6Fabio
                     ball.PositionInitial = new Vector2(640, 320);
                     ball.ballColour = Color.AliceBlue;
                 }
+
                 if (ball.ballColour == Color.Green)
                 {
                     placar[0] += 1;
