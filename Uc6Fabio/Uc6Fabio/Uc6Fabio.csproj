@@ -109,6 +109,7 @@
     <Compile Include="Components\Chronometer.cs" />
     <Compile Include="Components\Enemy.cs" />
     <Compile Include="Components\Player.cs" />
+    <Compile Include="Components\PongState.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>

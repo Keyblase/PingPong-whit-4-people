@@ -32,7 +32,7 @@ namespace Uc6Fabio.Components
             Texture = content.Load<Texture2D>("Images\\esfera3d");           
             PositionInitial = posIni;
             speed1 = speed2 = 6;
-            PositionEnd = new Vector2(1,20);
+            PositionEnd = new Vector2(-10,10);
             ballColour = Color.AliceBlue;
         }
 

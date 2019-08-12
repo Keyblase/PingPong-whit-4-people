@@ -21,7 +21,7 @@ namespace Uc6Fabio.Components
         public Vector2 PositionEnd { get; set; }
         public Texture2D Texture { get; set; }
         public Rectangle frame;
-        
+        MouseState MouseState;
 
         public Player(ContentManager content, Vector2 posIni, string namePlayer)
         {
@@ -86,12 +86,12 @@ namespace Uc6Fabio.Components
             }
             if (playerRecebido.NamePlayer1 == "Ana")
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                if (Mouse.GetState().Position.X > 665)
                 {
                     rightArrow = true;
                     playerRecebido.PositionInitial.X += speed * 35 * TimeExecution;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                if (Mouse.GetState().Position.X < 665)
                 {
                     leftArrow = true;
                     playerRecebido.PositionInitial.X -= speed * 35 * TimeExecution;
@@ -101,6 +101,26 @@ namespace Uc6Fabio.Components
                     playerRecebido.PositionInitial.X += speed * 0 * TimeExecution;
                 }
             }
+            #region Player 3 Teclado Movimentation
+            //Backup com teclado
+            //if (playerRecebido.NamePlayer1 == "Ana")
+            //{
+            //    if (Keyboard.GetState().IsKeyDown(Keys.D))
+            //    {
+            //        rightArrow = true;
+            //        playerRecebido.PositionInitial.X += speed * 35 * TimeExecution;
+            //    }
+            //    if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //    {
+            //        leftArrow = true;
+            //        playerRecebido.PositionInitial.X -= speed * 35 * TimeExecution;
+            //    }
+            //    if (leftArrow ^ rightArrow)
+            //    {
+            //        playerRecebido.PositionInitial.X += speed * 0 * TimeExecution;
+            //    }
+            //}
+            #endregion
 
             if (playerRecebido.NamePlayer1 == "Joao")
             {
@@ -118,25 +138,7 @@ namespace Uc6Fabio.Components
                 {
                     playerRecebido.PositionInitial.X += speed * 0 * TimeExecution;
                 }
-            }
-            // if (playerRecebido.NamePlayer1 == "Ana")
-            // {
-            //     if (Mouse.GetState().HorizontalScrollWheelValue > 0)
-            //     {
-            //         rightArrow = true;
-            //         playerRecebido.PositionInitial.X += speed * +35 * TimeExecution;
-            //     }
-            //     if (Mouse.GetState().HorizontalScrollWheelValue < 0)
-            //     {
-            //         leftArrow = true;
-            //         playerRecebido.PositionInitial.Y += speed * -35 * TimeExecution;
-            //     }
-            //     if (leftArrow ^ rightArrow)
-            //     {
-            //         playerRecebido.PositionInitial.Y += speed * 0 * TimeExecution;
-            //     }
-            // }
-
+            }           
         }
 
 
